@@ -1,0 +1,64 @@
+version: '3'
+
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper
+    container_name: esign-zookeeper
+    volumes:
+      - 'esign-zookeeper-data:/var/lib/zookeeper/data'
+      - 'esign-zookeeper-log:/var/lib/zookeeper/log'
+    environment:
+      - ZOOKEEPER_CLIENT_PORT=2181
+      - ZOOKEEPER_TICK_TIME=2000
+    ports:
+      - '2181:2181'
+    networks:
+      - esign-net
+    mem_limit: 256m
+
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '1m'
+        max-file: '3'
+
+  kafka:
+    image: confluentinc/cp-kafka
+    container_name: esign-kafka
+    depends_on:
+      - zookeeper
+    volumes:
+      - 'esign-kafka-data:/var/lib/kafka/data'
+      - 'esign-kafka-log:/var/lib/kafka/log'
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+
+      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT,INTERNAL:PLAINTEXT
+      - KAFKA_ADVERTISED_LISTENERS=EXTERNAL://localhost:9093,INTERNAL://kafka:9092
+
+      - KAFKA_INTER_BROKER_LISTENER_NAME=INTERNAL
+
+    ports:
+      - '9093:9093'
+    restart: always
+    mem_limit: 400m
+    networks:
+      - esign-net
+
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '1m'
+        max-file: '3'
+
+volumes:
+  esign-zookeeper-data:
+  esign-zookeeper-log:
+  esign-kafka-data:
+  esign-kafka-log:
+
+networks:
+  esign-net:
+     driver: bridge

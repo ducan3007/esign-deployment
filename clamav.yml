@@ -1,0 +1,14 @@
+version: '3'
+services:
+  clam_av:
+    container_name: esign-clamav
+    image: mk0x/docker-clamav
+    restart: unless-stopped
+    networks:
+      - esign-net
+    ports:
+      - '3310:3310'
+
+networks:
+  esign-net:
+    driver: bridge
