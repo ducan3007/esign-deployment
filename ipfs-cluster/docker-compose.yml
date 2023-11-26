@@ -5,12 +5,11 @@ services:
     container_name: ipfs0
     image: ipfs/kubo:release
     ports:
-      - "127.0.0.1:4001:4001" # ipfs swarm 
-      - "127.0.0.1:5001:5001" # ipfs api 
-      - "127.0.0.1:8080:8080" # ipfs gateway 
+      - "127.0.0.1:4001:4001" 
+      - "127.0.0.1:5001:5001" 
+      - "127.0.0.1:8080:8080" 
     volumes:
       - ./compose/ipfs0:/data/ipfs
-   
 
   cluster0:
     container_name: cluster0
@@ -26,14 +25,8 @@ services:
       CLUSTER_MONITORPINGINTERVAL: 2s 
     ports:
       - '127.0.0.1:9094:9094'
-      # The cluster swarm port would need  to be exposed if this container
-      # was to connect to cluster peers on other hosts.
-      # But this is just a testing cluster.
-      # - "9095:9095" # Cluster IPFS Proxy endpoint
-      # - "9096:9096" # Cluster swarm endpoint
     volumes:
       - ./compose/cluster0:/data/ipfs-cluster
- 
 
   # IPFS1 
   ipfs1:
@@ -42,7 +35,6 @@ services:
     volumes:
       - ./compose/ipfs1:/data/ipfs
     
-
   # Cluster1 
   cluster1:
     container_name: cluster1

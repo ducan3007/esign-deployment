@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  esign-ipfs:
+    build:
+      context: /home/anduc/kltn/esign-ipfs-service/.
+      dockerfile: Dockerfile
+    restart: always
+    env_file:
+      - .env.ipfs
+    ports:
+      - "6010:6010"
+    expose:
+      - "5009"
+      - "6010"      
+
+
+    
+
+ 

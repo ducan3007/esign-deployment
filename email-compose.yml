@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  esign-email:
+    build:
+      context: /home/anduc/kltn/esign-email-service/.
+      dockerfile: Dockerfile
+    restart: always
+    env_file:
+      - .env.email
+    expose:
+      - "5009"
+      
+
+
+    
+
+ 

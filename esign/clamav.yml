@@ -1,11 +1,10 @@
 version: '3'
 services:
   clam_av:
-    container_name: esign-clamav
+    container_name: esign-clamav-dev
     image: mk0x/docker-clamav
     restart: unless-stopped
-    ports:
-      - '3310:3310'
     expose:
       - '3310'
+
 

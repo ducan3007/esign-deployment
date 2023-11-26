@@ -1,0 +1,32 @@
+# IPFS single node configuration
+version: '3'
+services:
+  ipfs:
+    image: ipfs/kubo:latest
+    container_name: ipfs-esign-single-dev
+    restart: unless-stopped
+    # ports:
+    #   - '5001:5001'
+    #   - '8080:8080'
+    #   - '4001:4001'
+    #   - '4002:4002'
+    #   - '4003:4003'
+    #   - '9090:9090'
+    expose:
+      - '5001'
+      - '8080'
+      - '4001'
+      - '4002'
+      - '4003'
+      - '9090'
+    volumes:
+      - 'esign-ipfs-data-dev:/data/ipfs'
+      - 'esign-ipfs-staging-dev:/export'
+    mem_limit: 256m
+ 
+
+volumes:
+  esign-ipfs-data-dev:
+  esign-ipfs-staging-dev:
+
+

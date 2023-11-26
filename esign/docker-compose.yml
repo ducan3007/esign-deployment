@@ -1,6 +1,0 @@
-version: '3'
-
-services:
-  esign-web:
-    build:
-      context: ../

@@ -3,14 +3,14 @@ version: '3'
 services:
   esign_postgre:
     image: postgres:12.1
-    container_name: esign-postgre
+    container_name: esign-postgre-dev
     restart: always
     environment:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=admin
       - POSTGRES_DB=esign
     volumes:
-      - 'esign-postgre-data-1:/var/lib/postgresql/data'
+      - 'esign-postgre-data-dev:/var/lib/postgresql/data'
     mem_limit: 256m
     ports:
       - '5432:5432'
@@ -18,7 +18,8 @@ services:
       - '5432'
 
 volumes:
-  esign-postgre-data-1:
+  esign-postgre-data-dev:
     driver: local
+
 
 

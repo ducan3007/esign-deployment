@@ -12,11 +12,21 @@ services:
       - '4002:4002'
       - '4003:4003'
       - '9090:9090'
+    expose:
+      - '5001'
+      - '8080'
+      - '4001'
+      - '4002'
+      - '4003'
+      - '9090'
     volumes:
-      - 'esign-ipfs-data:/data/ipfs'
-      - 'esign-ipfs-staging:/export'
+      - 'esign-ipfs-data-1:/data/ipfs'
+      - 'esign-ipfs-staging-1:/export'
     mem_limit: 256m
+    
 
 volumes:
-  esign-ipfs-data:
-  esign-ipfs-staging:
+  esign-ipfs-data-1:
+  esign-ipfs-staging-1:
+
+
