@@ -8,4 +8,11 @@ services:
       - '3310:3310'
     expose:
       - '3310'
+    networks:
+      - esign-dev-network
 
+
+networks:
+  esign-dev-network:
+    external: true
+    

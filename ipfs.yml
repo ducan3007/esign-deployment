@@ -23,10 +23,13 @@ services:
       - 'esign-ipfs-data-1:/data/ipfs'
       - 'esign-ipfs-staging-1:/export'
     mem_limit: 256m
-    
+    networks:
+      - esign-dev-network
 
 volumes:
   esign-ipfs-data-1:
   esign-ipfs-staging-1:
 
-
+networks:
+  esign-dev-network:
+    external: true

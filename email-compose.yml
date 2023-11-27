@@ -10,7 +10,14 @@ services:
       - .env.email
     expose:
       - "5009"
+    networks:
+      -  esign-dev-network
       
+networks:
+  esign-dev-network:
+    external: true
+    
+    
 
 
     

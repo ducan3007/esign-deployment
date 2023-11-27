@@ -1,27 +1,20 @@
 version: '3'
 
 services:
-  esign-services:
+  esign-web-app:
     build:
-      context: /home/anduc/kltn/esign-services/.
+      context: /home/anduc/kltn/esign-web/.
       dockerfile: Dockerfile
     restart: always
     env_file:
-      - .env.api
+      - .env.web
     ports:
-      - "4009:4009"
-    expose:
-      - "4009"
+      - "4008:4008"
     networks:
-      - esign-dev-network
+      -  esign-dev-network
 
 networks:
   esign-dev-network:
     external: true
     
       
-
-
-    
-
- 

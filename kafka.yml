@@ -15,12 +15,13 @@ services:
     expose:
       - '2181'
     mem_limit: 256m
-
     logging:
       driver: 'json-file'
       options:
         max-size: '1m'
         max-file: '3'
+    networks:
+      - esign-dev-network
 
   kafka:
     image: confluentinc/cp-kafka
@@ -47,12 +48,13 @@ services:
       - '9093'
     restart: always
     mem_limit: 400m
-
     logging:
       driver: 'json-file'
       options:
         max-size: '1m'
         max-file: '3'
+    networks:
+      - esign-dev-network
 
 volumes:
   esign-zookeeper-data-1:
@@ -61,3 +63,6 @@ volumes:
   esign-kafka-log-1:
 
 
+networks:
+  esign-dev-network:
+    external: true

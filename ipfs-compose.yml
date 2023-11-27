@@ -12,8 +12,13 @@ services:
       - "6010:6010"
     expose:
       - "5009"
-      - "6010"      
+      - "6010"     
+    networks:
+      -  esign-dev-network   
 
+networks:
+  esign-dev-network:
+    external: true
 
     
 
