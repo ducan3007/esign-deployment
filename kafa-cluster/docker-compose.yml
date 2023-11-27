@@ -3,17 +3,16 @@ version: '3'
 services:
   zookeeper:
     image: confluentinc/cp-zookeeper
-    container_name: zookeeper
     volumes:
-      - 'zookeeper-data:/var/lib/zookeeper/data'
-      - 'zookeeper-log:/var/lib/zookeeper/log'
+      - 'zookeeper-data-dev:/var/lib/zookeeper/data'
+      - 'zookeeper-log-dev:/var/lib/zookeeper/log'
     environment:
       - ZOOKEEPER_CLIENT_PORT=2181
       - ZOOKEEPER_TICK_TIME=2000
     ports:
       - '2181:2181'
     networks:
-      - kafka-net
+      - esign-dev-network
     mem_limit: 256m
 
     logging:
@@ -24,28 +23,23 @@ services:
 
   kafka1:
     image: confluentinc/cp-kafka
-    container_name: kafka1
     depends_on:
       - zookeeper
     volumes:
-      - 'kafka1-data:/var/lib/kafka/data'
-      - 'kafka1-log:/var/lib/kafka/log'
+      - 'kafka1-data-dev:/var/lib/kafka/data'
+      - 'kafka1-log-dev:/var/lib/kafka/log'
     environment:
       - KAFKA_BROKER_ID=1
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
-
       - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT,INTERNAL:PLAINTEXT
       - KAFKA_ADVERTISED_LISTENERS=EXTERNAL://localhost:9093,INTERNAL://kafka1:9092
-
       - KAFKA_INTER_BROKER_LISTENER_NAME=INTERNAL
-
     ports:
       - '9093:9093'
     restart: always
     mem_limit: 400m
     networks:
-      - kafka-net
-
+      - esign-dev-network
     logging:
       driver: 'json-file'
       options:
@@ -54,30 +48,23 @@ services:
 
   kafka2:
     image: confluentinc/cp-kafka
-    container_name: kafka2
     depends_on:
       - kafka1
     volumes:
-      - 'kafka2-data:/var/lib/kafka/data'
-      - 'kafka2-log:/var/lib/kafka/log'
+      - 'kafka2-data-dev:/var/lib/kafka/data'
+      - 'kafka2-log-dev:/var/lib/kafka/log'
     environment:
       - KAFKA_BROKER_ID=2
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
-
       - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT,INTERNAL:PLAINTEXT
       - KAFKA_ADVERTISED_LISTENERS=EXTERNAL://localhost:9094,INTERNAL://kafka2:9092
-
-      # - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-      # - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka2:9092,PLAINTEXT_HOST://localhost:29093
-
       - KAFKA_INTER_BROKER_LISTENER_NAME=INTERNAL
-
     ports:
       - '9094:9094'
     restart: always
     mem_limit: 400m
     networks:
-      - kafka-net
+      - esign-dev-network
 
     logging:
       driver: 'json-file'
@@ -87,27 +74,23 @@ services:
 
   kafka3:
     image: confluentinc/cp-kafka
-    container_name: kafka3
     depends_on:
       - kafka2
     volumes:
-      - 'kafka3-data:/var/lib/kafka/data'
-      - 'kafka3-log:/var/lib/kafka/log'
+      - 'kafka3-data-dev:/var/lib/kafka/data'
+      - 'kafka3-log-dev:/var/lib/kafka/log'
     environment:
       - KAFKA_BROKER_ID=3
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
-
       - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT,INTERNAL:PLAINTEXT
       - KAFKA_ADVERTISED_LISTENERS=EXTERNAL://localhost:9095,INTERNAL://kafka3:9092
-
       - KAFKA_INTER_BROKER_LISTENER_NAME=INTERNAL
     restart: always
     ports:
       - '9095:9095'
     mem_limit: 400m
-
     networks:
-      - kafka-net
+      - esign-dev-network
 
     logging:
       driver: 'json-file'
@@ -115,35 +98,23 @@ services:
         max-size: '1m'
         max-file: '3'
 
-  redis:
-    image: redis:alpine
-    ports:
-      - 6379:6379
-    volumes:
-      - 'redis-data:/data'
-    command: redis-server --appendonly yes
-    mem_limit: 128m
-    networks:
-      - kafka-net
-
 volumes:
-  zookeeper-data:
-  zookeeper-log:
+  zookeeper-data-dev:
+  zookeeper-log-dev:
 
-  kafka1-data:
-  kafka1-log:
+  kafka1-data-dev:
+  kafka1-log-dev:
 
-  kafka2-data:
-  kafka2-log:
+  kafka2-data-dev:
+  kafka2-log-dev:
 
-  kafka3-data:
-  kafka3-log:
-
-  redis-data:
+  kafka3-data-dev:
+  kafka3-log-dev:
 
 networks:
-  kafka-net:
-    driver: bridge
+  esign-dev-network:
+    external: true
+
 # version: "3"
 
 # services:

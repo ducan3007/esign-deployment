@@ -14,15 +14,8 @@ services:
       - '2181:2181'
     expose:
       - '2181'
-    mem_limit: 256m
-    logging:
-      driver: 'json-file'
-      options:
-        max-size: '1m'
-        max-file: '3'
     networks:
       - esign-dev-network
-
   kafka:
     image: confluentinc/cp-kafka
     container_name: esign-kafka
@@ -35,24 +28,14 @@ services:
       - KAFKA_BROKER_ID=1
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
       - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
-
       - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT,INTERNAL:PLAINTEXT
       - KAFKA_ADVERTISED_LISTENERS=EXTERNAL://localhost:9093,INTERNAL://kafka:9092
-
       - KAFKA_INTER_BROKER_LISTENER_NAME=INTERNAL
-
     ports:
       - '9093:9093'
     expose:
       - '9092'
-      - '9093'
     restart: always
-    mem_limit: 400m
-    logging:
-      driver: 'json-file'
-      options:
-        max-size: '1m'
-        max-file: '3'
     networks:
       - esign-dev-network
 

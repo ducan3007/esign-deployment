@@ -8,8 +8,14 @@ services:
       - "127.0.0.1:4001:4001" 
       - "127.0.0.1:5001:5001" 
       - "127.0.0.1:8080:8080" 
+    expose:
+      - '4001'
+      - '5001'
     volumes:
       - ./compose/ipfs0:/data/ipfs
+    networks:
+      - esign-dev-network
+      
   cluster0:
     container_name: cluster0
     image: ipfs/ipfs-cluster:latest
@@ -22,8 +28,8 @@ services:
       CLUSTER_CRDT_TRUSTEDPEERS: '*' 
       CLUSTER_RESTAPI_HTTPLISTENMULTIADDRESS: /ip4/0.0.0.0/tcp/9094 
       CLUSTER_MONITORPINGINTERVAL: 2s 
-    ports:
-      - '127.0.0.1:9094:9094'
+    networks:
+      - esign-dev-network
     volumes:
       - ./compose/cluster0:/data/ipfs-cluster
       
@@ -33,6 +39,8 @@ services:
     image: ipfs/kubo:release
     volumes:
       - ./compose/ipfs1:/data/ipfs
+    networks:
+      - esign-dev-network
     
   # Cluster1 
   cluster1:
@@ -45,9 +53,11 @@ services:
       CLUSTER_SECRET: "e23e876e6742615eca9aefdc05943fa0d1bbc18f7d0a4f27e22ff8931fc56624"
       CLUSTER_IPFSHTTP_NODEMULTIADDRESS: /dns4/ipfs1/tcp/5001
       CLUSTER_CRDT_TRUSTEDPEERS: '*'
-      CLUSTER_MONITORPINGINTERVAL: 2s # Speed up peer discovery
+      CLUSTER_MONITORPINGINTERVAL: 2s 
     volumes:
       - ./compose/cluster1:/data/ipfs-cluster
+    networks:
+      - esign-dev-network
     
 
   # IPFS2 
@@ -56,6 +66,9 @@ services:
     image: ipfs/kubo:release
     volumes:
       - ./compose/ipfs2:/data/ipfs
+    networks:
+      - esign-dev-network
+    
 
   cluster2:
     container_name: cluster2
@@ -67,8 +80,13 @@ services:
       CLUSTER_SECRET: "e23e876e6742615eca9aefdc05943fa0d1bbc18f7d0a4f27e22ff8931fc56624"
       CLUSTER_IPFSHTTP_NODEMULTIADDRESS: /dns4/ipfs2/tcp/5001
       CLUSTER_CRDT_TRUSTEDPEERS: '*'
-      CLUSTER_MONITORPINGINTERVAL: 2s # Speed up peer discovery
+      CLUSTER_MONITORPINGINTERVAL: 2s 
     volumes:
       - ./compose/cluster2:/data/ipfs-cluster
+    networks:
+      - esign-dev-network
  
+networks:
+  esign-dev-network:
+    external: true
 
